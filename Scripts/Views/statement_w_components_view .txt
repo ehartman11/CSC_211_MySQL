@@ -1,0 +1,11 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `statement_w_components` AS
+    SELECT 
+        `statement`.`statement_name` AS `statement`,
+        `financial_component`.`component_name` AS `component`
+    FROM
+        (`statement`
+        LEFT JOIN `financial_component` ON ((`financial_component`.`statement_id` = `statement`.`statement_id`)))

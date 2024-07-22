@@ -1,0 +1,16 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `financial_statements_per_company` AS
+    SELECT 
+        `company_info`.`comp_name` AS `company`,
+        `company_info`.`comp_ticker` AS `ticker`,
+        `financial_statement`.`fs_id` AS `financial statement`,
+        `quarter`.`qtr` AS `quarter`,
+        `quarter`.`year` AS `year`
+    FROM
+        ((`company_info`
+        LEFT JOIN `financial_statement` ON ((`financial_statement`.`comp_id` = `company_info`.`comp_id`)))
+        LEFT JOIN `quarter` ON ((`quarter`.`qtr_id` = `financial_statement`.`qtr_id`)))
+    ORDER BY `company_info`.`comp_name` , `quarter`.`year` DESC , `quarter`.`qtr` DESC

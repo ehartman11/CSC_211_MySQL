@@ -1,0 +1,11 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `values_and_units` AS
+    SELECT 
+        `component_value`.`val` AS `value`,
+        `denomination`.`denom` AS `unit`
+    FROM
+        (`component_value`
+        LEFT JOIN `denomination` ON ((`denomination`.`denom_id` = `component_value`.`denom_id`)))

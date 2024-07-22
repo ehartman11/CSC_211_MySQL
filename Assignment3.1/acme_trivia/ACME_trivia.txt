@@ -1,0 +1,116 @@
+First assignment is essentially creating your database, creating the tables it will hold, and then filling those tables with data records using INSERT
+
+-- Create the DB. If the DB already exists then first erase (DROP) it otherwise creating it again will throw an error. 
+DROP DATABASE IF EXISTS ACME_trivia;
+CREATE DATABASE ACME_trivia;
+USE ACME_trivia;
+
+-- Create the tables to include column_name, data_type, and constraints 
+CREATE TABLE trivia_game
+(
+	category_id		INT				PRIMARY KEY, 
+	category_name		VARCHAR(120)			NULL
+);
+
+CREATE TABLE questions
+(
+	question_id		INT				PRIMARY KEY	NOT NULL, 
+	question_text		VARCHAR(120)			NULL,
+	category_id		INT				NULL,
+	level			INT				NULL,
+
+    -- Add in a constraint to link the category_id columns of the questions and trivia_game tables
+	CONSTRAINT questions_fk_terms
+		FOREIGN KEY (category_id)
+		REFERENCES trivia_game(category_id)
+);
+
+CREATE TABLE answers
+(
+	answers_id		INT				PRIMARY KEY	NOT NULL, 
+	answers_text		VARCHAR(120)			NULL,
+	is_correct		BOOLEAN				NULL,
+	question_id		INT				NULL, 
+-- Add in a constraint to link the question_id columns of the questions and answers tables using a foreign key (fk)
+	CONSTRAINT answers_fk_terms
+		FOREIGN KEY (question_id)
+		REFERENCES questions(question_id)
+);
+
+-- Insert 10 rows into each table 
+INSERT INTO trivia_game VALUES
+(1, NULL),
+(2, NULL),
+(3, NULL),
+(4, NULL),
+(5, NULL),
+(6, NULL),
+(7, NULL),
+(8, NULL),
+(9, NULL),
+(10, NULL);
+
+INSERT INTO questions VALUES
+(1, NULL, NULL, NULL),
+(2, NULL, NULL, NULL),
+(3, NULL, NULL, NULL),
+(4, NULL, NULL, NULL),
+(5, NULL, NULL, NULL),
+(6, NULL, NULL, NULL),
+(7, NULL, NULL, NULL),
+(8, NULL, NULL, NULL),
+(9, NULL, NULL, NULL),
+(10, NULL, NULL, NULL);
+
+INSERT INTO answers VALUES
+(1, NULL, NULL, NULL),
+(2, NULL, NULL, NULL),
+(3, NULL, NULL, NULL),
+(4, NULL, NULL, NULL),
+(5, NULL, NULL, NULL),
+(6, NULL, NULL, NULL),
+(7, NULL, NULL, NULL),
+(8, NULL, NULL, NULL),
+(9, NULL, NULL, NULL),
+(10, NULL, NULL, NULL);
+
+--------------------------------------------------
+The second assignment is using the tables you just created to return a joined table that will include the requested columns of data from two specified tables. 
+
+-- Think of this as opening the database
+USE acme_trivia;
+
+-- This is requesting the columns of tables to join
+-- look at each item as if it is saying column from table (ie. SELECT questions.question_id means grab the question_id column from the questions table)
+SELECT questions.question_id, questions.question_text, answers.answers_text, answers.is_correct
+
+-- This will join the columns together into a viewable table
+-- you are pretty much saying to join questions and answers with on a common/shared column (pk/fk: question_id)
+-- the result will include the previously requested columns
+FROM questions
+INNER JOIN answers ON questions.question_id = answers.question_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
